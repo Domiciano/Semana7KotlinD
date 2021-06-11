@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     var i: Int = 0
 
+
+    //Esto está mal porque el contador está siendo cambiado en un hilo worker
     private fun runCounterThatFails() {
         lifecycleScope.launch(Dispatchers.IO) {
             while (true) {
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Esto está bien porque el contador está cambiando en el hilo principal
     private fun runCounterThatIsGood() {
         lifecycleScope.launch(Dispatchers.IO) {
             while (true) {
