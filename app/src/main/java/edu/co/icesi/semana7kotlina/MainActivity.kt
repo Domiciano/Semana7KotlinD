@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             while (true) {
                 i++
                 delay(1000)
-                lifecycleScope.launch(Dispatchers.Main) {
+                withContext(Dispatchers.Main) {
                     counterTV.text = "cuenta: $i"
                     Log.e(">>>","Alfa: $i")
                 }
