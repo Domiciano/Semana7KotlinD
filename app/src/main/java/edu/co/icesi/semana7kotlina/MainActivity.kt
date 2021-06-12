@@ -35,40 +35,15 @@ class MainActivity : AppCompatActivity() {
 
 
         actionBtn.setOnClickListener {
-            val url = urlET.text.toString()
-            getRequestThatWorks(url)
+            val h = HttpUtil()
+            h.responseLive.observe(this, Observer {
+                outputTV.text = it
+            })
+            h.getRequest(urlET.text.toString())
         }
 
     }
 
 
-    //Aquí violamos la regla porque estamos usando Networking en el Main Thread
-    private fun getRequestThatFails(url: String) {
-        val url = URL(url)
-        val https = url.openConnection() as HttpsURLConnection
-        https.requestMethod = "GET"
-        var mensaje = ""
-        https.inputStream.bufferedReader().lines().forEach{
-            mensaje+=it
-        }
-        Log.e(">>>",mensaje)
-    }
-
-    //Aquí funciona porque se está invocando en un hilo worker
-    private fun getRequestThatWorks(url: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val url = URL(url)
-            val https = url.openConnection() as HttpsURLConnection
-            https.requestMethod = "GET"
-            var mensaje = ""
-            https.inputStream.bufferedReader().lines().forEach{
-                mensaje+=it
-            }
-            withContext(Dispatchers.Main){
-                outputTV.text = mensaje
-            }
-        }
-
-    }
 
 }
