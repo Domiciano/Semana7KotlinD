@@ -21,10 +21,7 @@ class HttpUtil : ViewModel(){
             val url = URL(url)
             val https = url.openConnection() as HttpsURLConnection
             https.requestMethod = "GET"
-            var mensaje = ""
-            https.inputStream.bufferedReader().lines().forEach{
-                mensaje+=it
-            }
+            var mensaje = https.inputStream.bufferedReader().readText()
             withContext(Dispatchers.Main){
                 responseMutable.value = mensaje
             }
